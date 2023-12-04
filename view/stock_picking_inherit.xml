@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record id="view_stock_picking_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_confirm']" position="before">
+                    <button string="Sent for Approval" type="object" class="oe_highlight"
+                            name="sent_for_approval"
+                            attrs="{'invisible': ['|','|','|',('state', '!=', 'assigned'),
+                            ('sent_approve', '=', False),('is_need_approve','=',True),
+                            ('approval_or_not','=','approved')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="approval_or_not" string="Delivery Approval Status"/>
+                    <field name="sent_approve" invisible="1"/>
+                    <field name="is_need_approve" invisible="1"/>
+                </xpath>
+                <xpath expr="//button[@name='button_validate']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|',('approval_or_not', '!=', 'approved'),('state','!=','assigned')]}</attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

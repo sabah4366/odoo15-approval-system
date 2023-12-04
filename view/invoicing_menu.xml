@@ -1,0 +1,89 @@
+<odoo>
+    <record id="view_purchase_approval_form" model="ir.ui.view">
+        <field name="name">inv_approval_system.delivery.approval.form</field>
+        <field name="model">inv_approval_system.delivery.approval</field>
+        <field name="arch" type="xml">
+            <form>
+                  <header>
+                        <button string="Approve" type="object" class="oe_highlight"
+                            name="to_approve_delivery"
+                            attrs="{'invisible': [('is_approved','=',True)]}"/>
+                    </header>
+                <sheet>
+                    <div>
+                        <h1>
+                            <field name="sequence_no"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <div>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="name"/>
+                                <field name="delivery_order_date"/>
+                            </group>
+                        </div>
+                        <div>
+                            <group>
+
+                                <field name="state"/>
+                                <field name="delivery_source_documnt"/>
+                                <field name="is_approved" invisible="1"/>
+
+                            </group>
+                        </div>
+                    </group>
+                    <notebook>
+                        <page string="Delivery Items">
+                            <field name="delivery_product_ids" widget="one2many_list">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="uom"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+<!--                Chatter-->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_purchase_approval_tree" model="ir.ui.view">
+        <field name="name">inv_approval_system.delivery.approval.tree</field>
+        <field name="model">inv_approval_system.delivery.approval</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_id"/>
+                <field name="name"/>
+                <field name="delivery_order_date"/>
+
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="menu_action_delivery_orders" model="ir.actions.act_window">
+        <field name="name">Delivery Orders Approval</field>
+        <field name="res_model">inv_approval_system.delivery.approval</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to manage delivery order approvals.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            name="Delivery Orders Approval"
+            id="menu_delivery_order_approvals"
+            parent="account.menu_finance"
+            sequence="4"
+            action="menu_action_delivery_orders"
+    />
+</odoo>
